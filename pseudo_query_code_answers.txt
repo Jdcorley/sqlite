@@ -1,0 +1,102 @@
+1. Remove duplicates in a query response.
+
+  remove_dups = Posts.uniq.pluck(:title)
+
+  SELECT DISTINCT body
+  FROM post;
+
+2. Filter records using inequalities, pattern matching, ranges, boolean logic.
+
+  filter = Posts.each do |post|
+            if post.title.length > 10 
+              return post
+            else next
+            end 
+  filter = Posts.each do |post|
+          if post.title = null
+            next
+          else
+            return post
+          end 
+  filter = (0..Posts.length) do |post|
+          if post.title /^Jack/
+            return post
+          else 
+            next
+          end
+
+  SELECT * 
+  FROM post 
+  WHERE title LIKE '%Jack%';
+
+  SELECT * 
+  FROM post
+  WHERE post.id > 3;
+
+  SELECT * 
+  FROM post
+  WHERE post.id <> 5;
+
+  SELECT * 
+  FROM post 
+  WHERE title != null;
+
+  3. Sort records in a particular order.
+
+    sort = Posts.order(:title, :desc)
+
+    SELECT title
+    FROM post
+    SORT BY title;
+
+  4. Limit number of records returned. 
+
+    limit = return Posts.each{|i| if i >= 5}
+
+    SELECT title 
+    FROM post
+    LIMIT 5 OFFSET 5;
+
+  5. group records into sections.
+    titles = []
+    bodies = []
+    groups = Posts.each {|param| param = Posts[:title] ? titles.push : bodies.push }
+
+    SELECT * 
+    FROM posts
+    GROUP BY title, body;
+
+  6. count = Posts.length 
+
+    SELECT COUNT(title) as title_count
+    FROM post;
+
+  7. Join tables using cross join, inner join, outer join.
+
+      cross_join = Post.joins("CROSS JOIN posts ON comments")
+      right_join = Post.joins("RIGHT JOIN posts ON comments")
+      left_join = Comment.joins("LEFT JOIN comments ON posts")
+      outer_join = Post.joins("OUTER JOIN posts ON comments JOIN user ON posts")
+
+      SELECT * 
+      FROM post
+      CROSS JOIN comment
+      ON comments.post_id = post.id;
+
+      SELECT * 
+      FROM post 
+      RIGHT JOIN comment
+      ON comments.post_id = post.id;
+
+      SELECT * 
+      FROM comment
+      LEFT JOIN post 
+      ON post.id = comments.post_id;
+
+      SELECT * 
+      FROM post
+      OUTER JOIN comment
+      ON comment.post_id = post.id
+      OUTER JOIN user
+      ON user.id = comment.user_id;
+
